@@ -1,7 +1,7 @@
 {
   "name": "쿠팡 바로가기",
   "short_name": "쿠팡",
-  "start_url": "https://link.coupang.com/a/c1MqNQ",
+  "start_url": "/pwa-cp/launch.html",
   "scope": "/pwa-cp/",
   "display": "standalone",
   "background_color": "#FFFFFF",
