@@ -5,7 +5,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll([
       BASE,
-      BASE + 'index.html',
+      "https://link.coupang.com/a/c1MqNQ",
       BASE + 'manifest.json',
       BASE + 'icons/icon-192.png',
       BASE + 'icons/icon-512.png'
