@@ -25,7 +25,6 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  // Only cache within scope
   if (!url.pathname.startsWith(BASE)) return;
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request).then(resp => {
