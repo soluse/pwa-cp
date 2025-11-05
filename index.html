@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>쿠팡 바로가기 안내</title>
+  <title>쿠팡 바로가기 설치 안내</title>
   <link rel="manifest" href="/pwa-cp/manifest.json">
   <meta name="theme-color" content="#0078FF">
   <meta name="description" content="쿠팡 사이트 바로가기를 홈 화면에 추가하는 공식 안내 페이지입니다.">
@@ -34,8 +34,8 @@
 <body>
   <main class="card" role="main" aria-label="쿠팡 바로가기 안내">
     <img class="logo" src="https://static.coupangcdn.com/image/coupang/common/logo_coupang_w350.png" alt="쿠팡 로고">
-    <h1>쿠팡 사이트 바로가기를 홈 화면에 추가하세요</h1>
-    <p>쿠팡을 더 빠르게 만나보세요. 홈 화면에 아이콘을 추가하면 앱처럼 즉시 접속할 수 있어요.</p>
+    <h1>쿠팡 바로가기를 홈 화면에 추가하세요</h1>
+    <p>설치 후 아이콘을 열면 즉시 <b>쿠팡</b>으로 이동합니다.</p>
     <div class="footer">© Coupang · 안내 페이지</div>
   </main>
 
@@ -54,7 +54,6 @@
   </div>
 
   <script>
-    // Service Worker 등록 (GitHub Pages의 /pwa-cp/ 경로)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/pwa-cp/service-worker.js')
         .then(r => console.log('SW registered:', r.scope))
@@ -69,7 +68,6 @@
 
     let deferredPrompt = null;
 
-    // iOS: 자동 설치 불가 → 자동 안내 배너 표시
     function showIOSGuide() {
       banner.querySelector('.install-title').textContent = '홈 화면에 추가 (iPhone)';
       banner.querySelector('.install-desc').innerHTML = 'Safari 하단 <b>공유(⬆️)</b> ▶ <b>홈 화면에 추가</b>를 눌러 설치하세요.';
@@ -77,42 +75,32 @@
       banner.classList.add('show');
     }
 
-    // Android/Chrome: beforeinstallprompt를 받아 즉시 배너 노출
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); // 기본 자동 프롬프트 막고 지연
+      e.preventDefault();
       deferredPrompt = e;
-      // 페이지 진입 시 자동으로 배너 표시
       if (!isStandalone && !isIOS) {
+        btnInstall.disabled = false;
+        btnInstall.textContent = '설치';
         banner.classList.add('show');
       }
     });
 
-    // 페이지 로드시 배너 자동 표시 (iOS는 가이드, Android는 이벤트 대기)
     window.addEventListener('load', () => {
-      if (isStandalone) return; // 이미 설치됨
+      if (isStandalone) return;
       if (isIOS) {
-        showIOSGuide(); // 자동 가이드
+        showIOSGuide();
       } else {
-        // Android의 경우 beforeinstallprompt가 늦게 올 수도 있어 UX 위해 잠깐 대기 후 없으면 일단 안내 노출
-        setTimeout(() => {
-          if (!deferredPrompt) {
-            // 안내 텍스트 보이고, 실제 설치 버튼은 비활성 안내
-            btnInstall.disabled = true;
-            btnInstall.textContent = '설치 준비 중…';
-            banner.classList.add('show');
-          }
-        }, 800);
+        btnInstall.disabled = true;
+        btnInstall.textContent = '설치 준비 중…';
+        banner.classList.add('show');
       }
     });
 
-    btnClose.addEventListener('click', () => {
-      banner.classList.remove('show');
-    });
+    btnClose.addEventListener('click', () => banner.classList.remove('show'));
 
     btnInstall.addEventListener('click', async () => {
       if (!deferredPrompt) {
-        // 아직 설치 가능 상태가 아님 → 약한 피드백
-        alert('잠시 후 다시 시도해 주세요. 브라우저가 설치 가능 상태가 되면 버튼이 활성화됩니다.');
+        alert('잠시 후 다시 시도해 주세요. 설치 준비가 되면 버튼이 활성화됩니다.');
         return;
       }
       deferredPrompt.prompt();
@@ -124,10 +112,8 @@
       }
     });
 
-    // 설치 완료 시 후처리(선택)
     window.addEventListener('appinstalled', () => {
       console.log('App installed');
-      // 설치 직후 쿠팡으로 이동하려면 아래 주석 해제:
       // location.href = 'https://www.coupang.com/?utm_source=appinstalled';
     });
   </script>

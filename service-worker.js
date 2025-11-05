@@ -1,11 +1,12 @@
-const CACHE = 'pwa-cp-v1';
+const CACHE = 'pwa-cp-v2';
 const BASE = '/pwa-cp/';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll([
       BASE,
-      "https://link.coupang.com/a/c1MqNQ",
+      BASE + 'index.html',
+      BASE + 'launch.html',
       BASE + 'manifest.json',
       BASE + 'icons/icon-192.png',
       BASE + 'icons/icon-512.png'
