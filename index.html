@@ -3,133 +3,54 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>쿠팡 바로가기 안내</title>
+  <title>쿠팡 바로가기 (브라우저 탭)</title>
   <link rel="manifest" href="/pwa-cp/manifest.json">
   <meta name="theme-color" content="#0078FF">
-  <meta name="description" content="쿠팡 사이트 바로가기를 홈 화면에 추가하는 공식 안내 페이지입니다.">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="description" content="쿠팡을 브라우저 탭으로 여는 홈 화면 바로가기 안내">
   <style>
     :root { --brand:#0078FF; --text:#222; --muted:#586174; --bg:#f7f8fa; --shadow:rgba(0,0,0,.08); }
     * { box-sizing: border-box; }
     body { margin:0; background:var(--bg); min-height:100dvh; display:grid; place-items:center;
            font-family: 'Noto Sans KR', system-ui, -apple-system, Helvetica, Arial, sans-serif; color:var(--text); }
-    .card { width:min(92vw,420px); background:#fff; border-radius:20px; padding:40px 26px; text-align:center;
+    .card { width:min(92vw,440px); background:#fff; border-radius:20px; padding:40px 26px; text-align:center;
             box-shadow:0 16px 40px var(--shadow); }
     .logo { width:140px; height:auto; margin:0 auto 18px; display:block; }
     h1 { font-size:1.35rem; margin:0; }
     p { margin:12px 0 0; color:#555; line-height:1.6; }
+    .btn { border:0; border-radius:12px; padding:12px 16px; font-size:1.05rem; cursor:pointer; }
+    .btn-primary { background:#0078FF; color:#fff; box-shadow:0 6px 16px rgba(0,120,255,.25); }
+    .steps { text-align:left; margin:18px auto 0; width:min(92%,380px); background:#f3f6ff; border:1px solid #e3edff;
+             border-radius:12px; padding:14px 16px; color:#2b4b80; font-size:.95rem; }
+    .steps h2 { margin:0 0 6px; font-size:1rem; }
+    .steps ol { margin: 0 0 6px 18px; padding: 0; }
+    .steps li { margin: 4px 0; }
     .footer { margin-top:16px; font-size:.85rem; color:#888; }
-    /* Install banner */
-    .install-banner { position:fixed; inset:auto 0 0 0; background:#fff; border-top:1px solid #e9edf3;
-      padding:14px 16px; box-shadow:0 -6px 24px rgba(0,0,0,.08); z-index:9999; display:none; }
-    .install-banner.show { display:block; }
-    .install-row { display:flex; align-items:center; gap:12px; max-width:720px; margin:0 auto; }
-    .install-title { font-weight:700; color:#222; }
-    .install-desc { color:#586174; font-size:.92rem; }
-    .install-actions { margin-left:auto; display:flex; gap:8px; }
-    .btn { border:0; border-radius:10px; padding:10px 14px; cursor:pointer; font-size:.95rem; }
-    .btn-primary { background:#0078FF; color:#fff; }
-    .btn-ghost { background:#f3f6ff; color:#214a88; }
   </style>
 </head>
 <body>
   <main class="card" role="main" aria-label="쿠팡 바로가기 안내">
     <img class="logo" src="https://static.coupangcdn.com/image/coupang/common/logo_coupang_w350.png" alt="쿠팡 로고">
-    <h1>쿠팡 사이트 바로가기를 홈 화면에 추가하세요</h1>
-    <p>쿠팡을 더 빠르게 만나보세요. 홈 화면에 아이콘을 추가하면 앱처럼 즉시 접속할 수 있어요.</p>
-    <div class="footer">© Coupang · 안내 페이지</div>
+    <h1>쿠팡 바로가기를 홈 화면에 추가</h1>
+    <p>이 바로가기는 <b>브라우저 탭</b>으로 쿠팡을 엽니다. (앱 형태 X)</p>
+    <p><a class="btn btn-primary" href="https://www.coupang.com/?utm_source=hs-cta" rel="noreferrer">쿠팡으로 바로 이동</a></p>
+    <section class="steps">
+      <h2>📱 추가 방법</h2>
+      <strong>안드로이드 (Chrome)</strong>
+      <ol>
+        <li>오른쪽 상단 <b>⋮</b> 메뉴</li>
+        <li><b>홈 화면에 추가</b> 선택</li>
+        <li>이름 확인 후 <b>추가</b></li>
+      </ol>
+      <strong>iPhone (Safari)</strong>
+      <ol>
+        <li>하단 <b>공유</b>(⬆️) 버튼</li>
+        <li><b>홈 화면에 추가</b> 선택</li>
+        <li>이름 입력 후 <b>추가</b></li>
+      </ol>
+      <p style="margin-top:8px;color:#6b7a99">※ 카카오톡/네이버 등 인앱 브라우저에서는 '크롬으로 열기' 또는 'Safari로 열기'를 사용하세요.</p>
+    </section>
+    <div class="footer">© 안내 페이지</div>
   </main>
-
-  <!-- 설치 배너 (자동 표시) -->
-  <div id="installBanner" class="install-banner" role="dialog" aria-label="홈 화면에 추가">
-    <div class="install-row">
-      <div>
-        <div class="install-title">쿠팡 바로가기를 홈 화면에 설치</div>
-        <div class="install-desc">아이콘을 추가하면 앱처럼 바로 접속할 수 있어요.</div>
-      </div>
-      <div class="install-actions">
-        <button id="installBtn" class="btn btn-primary">설치</button>
-        <button id="closeInstall" class="btn btn-ghost">나중에</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Service Worker 등록 (GitHub Pages의 /pwa-cp/ 경로)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/pwa-cp/service-worker.js')
-        .then(r => console.log('SW registered:', r.scope))
-        .catch(e => console.error('SW registration failed:', e));
-    }
-
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const banner = document.getElementById('installBanner');
-    const btnInstall = document.getElementById('installBtn');
-    const btnClose = document.getElementById('closeInstall');
-
-    let deferredPrompt = null;
-
-    // iOS: 자동 설치 불가 → 자동 안내 배너 표시
-    function showIOSGuide() {
-      banner.querySelector('.install-title').textContent = '홈 화면에 추가 (iPhone)';
-      banner.querySelector('.install-desc').innerHTML = 'Safari 하단 <b>공유(⬆️)</b> ▶ <b>홈 화면에 추가</b>를 눌러 설치하세요.';
-      btnInstall.style.display = 'none';
-      banner.classList.add('show');
-    }
-
-    // Android/Chrome: beforeinstallprompt를 받아 즉시 배너 노출
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); // 기본 자동 프롬프트 막고 지연
-      deferredPrompt = e;
-      // 페이지 진입 시 자동으로 배너 표시
-      if (!isStandalone && !isIOS) {
-        banner.classList.add('show');
-      }
-    });
-
-    // 페이지 로드시 배너 자동 표시 (iOS는 가이드, Android는 이벤트 대기)
-    window.addEventListener('load', () => {
-      if (isStandalone) return; // 이미 설치됨
-      if (isIOS) {
-        showIOSGuide(); // 자동 가이드
-      } else {
-        // Android의 경우 beforeinstallprompt가 늦게 올 수도 있어 UX 위해 잠깐 대기 후 없으면 일단 안내 노출
-        setTimeout(() => {
-          if (!deferredPrompt) {
-            // 안내 텍스트 보이고, 실제 설치 버튼은 비활성 안내
-            btnInstall.disabled = true;
-            btnInstall.textContent = '설치 준비 중…';
-            banner.classList.add('show');
-          }
-        }, 800);
-      }
-    });
-
-    btnClose.addEventListener('click', () => {
-      banner.classList.remove('show');
-    });
-
-    btnInstall.addEventListener('click', async () => {
-      if (!deferredPrompt) {
-        // 아직 설치 가능 상태가 아님 → 약한 피드백
-        alert('잠시 후 다시 시도해 주세요. 브라우저가 설치 가능 상태가 되면 버튼이 활성화됩니다.');
-        return;
-      }
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      banner.classList.remove('show');
-      if (outcome === 'accepted') {
-        console.log('PWA install accepted');
-      }
-    });
-
-    // 설치 완료 시 후처리(선택)
-    window.addEventListener('appinstalled', () => {
-      console.log('App installed');
-      // 설치 직후 쿠팡으로 이동하려면 아래 주석 해제:
-      // location.href = 'https://www.coupang.com/?utm_source=appinstalled';
-    });
-  </script>
 </body>
 </html>
