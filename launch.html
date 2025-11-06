@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>쿠팡 바로가기 실행</title>
+  <link rel="manifest" href="/pwa-cp/manifest.json">
+  <meta name="theme-color" content="#0078FF">
+  <link rel="apple-touch-icon" href="/pwa-cp/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <style>
+    body{margin:0;display:grid;place-items:center;min-height:100dvh;font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#222}
+    .wrap{text-align:center;max-width:520px;padding:24px}
+    .sub{color:#666}
+    .hint{margin-top:12px;color:#6b7a99;font-size:.95rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>쿠팡으로 이동합니다…</h1>
+    <p class="sub">잠시만 기다려 주세요.</p>
+    <p><a id="go" href="https://www.coupang.com/?utm_source=hs-launch" rel="noreferrer">바로 이동</a></p>
+    <div class="hint" id="hint" hidden>홈 화면 아이콘에서 실행하면 자동으로 이동합니다.</div>
+  </div>
+  <script>
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const params = new URLSearchParams(location.search);
+    const shouldGo = isStandalone || params.get('go') === '1';
+
+    if (shouldGo) {
+      // Redirect ASAP (keep history clean)
+      location.replace('https://www.coupang.com/?utm_source=hs-launch');
+    } else {
+      // Show small hint so user can Add to Home Screen
+      document.getElementById('hint').hidden = false;
+    }
+  </script>
+</body>
+</html>
